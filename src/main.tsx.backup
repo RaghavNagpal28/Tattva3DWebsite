@@ -1,0 +1,377 @@
+import './style.css'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import type { GLTF } from 'three/examples/jsm/loaders/GLTFLoader.js'
+
+// Hamburger menu functionality
+const hamburger = document.getElementById('hamburger') as HTMLButtonElement
+const navMenu = document.getElementById('navMenu') as HTMLElement
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active')
+  navMenu.classList.toggle('active')
+})
+
+// Close mobile menu when clicking on a nav item
+const navItems = document.querySelectorAll('.nav-item')
+navItems.forEach(item => {
+  item.addEventListener('click', () => {
+    hamburger.classList.remove('active')
+    navMenu.classList.remove('active')
+  })
+})
+
+// Menu toggle functionality (bottom menu)
+const menuToggle = document.getElementById('menuToggle') as HTMLButtonElement
+const projectsItem = document.getElementById('projects') as HTMLSpanElement
+const servicesItem = document.getElementById('services') as HTMLSpanElement
+let isMenuExpanded: boolean = false
+
+menuToggle.addEventListener('click', () => {
+  isMenuExpanded = !isMenuExpanded
+  
+  if (isMenuExpanded) {
+    // Show hidden menu items
+    projectsItem.classList.remove('hidden')
+    projectsItem.classList.add('show')
+    servicesItem.classList.remove('hidden')
+    servicesItem.classList.add('show')
+    menuToggle.classList.add('active')
+  } else {
+    // Hide menu items
+    projectsItem.classList.remove('show')
+    projectsItem.classList.add('hidden')
+    servicesItem.classList.remove('show')
+    servicesItem.classList.add('hidden')
+    menuToggle.classList.remove('active')
+  }
+})
+
+// Scene setup
+const scene: THREE.Scene = new THREE.Scene()
+// Make scene background transparent to show CSS gradient
+scene.background = null
+
+// Camera setup
+const camera: THREE.PerspectiveCamera = new THREE.PerspectiveCamera(
+  120,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  2000
+)
+camera.position.z = 5
+
+// Renderer setup
+const canvas = document.querySelector('#webgl-canvas') as HTMLCanvasElement
+const renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer({
+  canvas,
+  antialias: true,
+  alpha: true
+})
+renderer.setSize(window.innerWidth, window.innerHeight)
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+renderer.setClearColor(0x000000, 0)
+
+// Enable proper color rendering for GLB models
+renderer.outputColorSpace = THREE.SRGBColorSpace
+renderer.toneMapping = THREE.ACESFilmicToneMapping
+renderer.toneMappingExposure = 1.2
+
+// Orbit controls
+const controls: OrbitControls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
+controls.dampingFactor = 0.05
+controls.enableZoom = false
+controls.autoRotate = false
+controls.autoRotateSpeed = 0
+
+// Lights - Enhanced lighting to show model colors properly
+const ambientLight: THREE.AmbientLight = new THREE.AmbientLight(0xffffff, 2.5)
+scene.add(ambientLight)
+
+// Main directional light (simulates sunlight)
+const directionalLight: THREE.DirectionalLight = new THREE.DirectionalLight(0xffffff, 3)
+directionalLight.position.set(5, 10, 7.5)
+scene.add(directionalLight)
+
+// Fill lights from different angles
+const pointLight1: THREE.PointLight = new THREE.PointLight(0xffffff, 4, 100)
+pointLight1.position.set(5, 5, 5)
+scene.add(pointLight1)
+
+const pointLight2: THREE.PointLight = new THREE.PointLight(0xffffff, 4, 100)
+pointLight2.position.set(-5, -5, -5)
+scene.add(pointLight2)
+
+const pointLight3: THREE.PointLight = new THREE.PointLight(0xffffff, 3, 100)
+pointLight3.position.set(0, 10, 0)
+scene.add(pointLight3)
+
+// Hemisphere light for better color representation
+const hemisphereLight: THREE.HemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 2)
+scene.add(hemisphereLight)
+
+// Create a group for the 3D model
+const modelGroup: THREE.Group = new THREE.Group()
+scene.add(modelGroup)
+
+// Load GLB model
+const loader: GLTFLoader = new GLTFLoader()
+let model: THREE.Group | null = null
+
+// Load the ring.glb model from public folder
+loader.load(
+  '/ring.glb',
+  (gltf: GLTF) => {
+    model = gltf.scene
+    
+    // Preserve original materials and colors
+    model.traverse((child: THREE.Object3D) => {
+      if (child instanceof THREE.Mesh) {
+        // Keep original materials and ensure proper rendering
+        if (child.material) {
+          // Enable shadows
+          child.castShadow = true
+          child.receiveShadow = true
+          
+          // Handle different material types
+          if (child.material instanceof THREE.MeshStandardMaterial) {
+            // Ensure textures use correct color space
+            if (child.material.map) {
+              child.material.map.colorSpace = THREE.SRGBColorSpace
+            }
+            
+            // Preserve metalness and roughness from the model
+            // These are crucial for PBR materials to look correct
+            child.material.metalness = child.material.metalness ?? 0.5
+            child.material.roughness = child.material.roughness ?? 0.5
+            
+            // Ensure the material responds to lights properly
+            child.material.envMapIntensity = 1.0
+          }
+          
+          // Force material update
+          child.material.needsUpdate = true
+        }
+      }
+    })
+    
+    // Calculate the bounding box to center and scale the model properly
+    const box: THREE.Box3 = new THREE.Box3().setFromObject(model)
+    box.getCenter(new THREE.Vector3()) // Center calculation for bounding box
+    const size: THREE.Vector3 = box.getSize(new THREE.Vector3())
+    
+    // Calculate scale to fit in view
+    const maxDim: number = Math.max(size.x, size.y, size.z)
+    const scale: number = 2 / maxDim // Adjust this number to change size
+    model.scale.set(scale, scale, scale)
+    
+    // Center the model at origin (0, 0, 0)
+    model.position.set(0, 0, 0)
+    
+    // Add the model to the group
+    modelGroup.add(model)
+    
+    // Don't center the group - let it move freely with mouse
+    // modelGroup starts at (0, 0, 0) and will be controlled by mouse movement
+    
+    // Set camera distance
+    camera.position.z = maxDim * scale * 2.5
+    
+    console.log('Model loaded successfully!')
+    console.log('Model size:', size)
+    console.log('Model scale:', scale)
+  },
+  (progress: ProgressEvent) => {
+    console.log('Loading progress:', (progress.loaded / progress.total * 100) + '%')
+  },
+  (error: unknown) => {
+    console.error('Error loading model:', error)
+  }
+)
+
+// Create particle system
+const particlesGeometry: THREE.BufferGeometry = new THREE.BufferGeometry()
+const particlesCount: number = 1000
+const posArray: Float32Array = new Float32Array(particlesCount * 3)
+
+for (let i = 0; i < particlesCount * 3; i++) {
+  posArray[i] = (Math.random() - 0.5) * 20
+}
+
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3))
+
+const particlesMaterial: THREE.PointsMaterial = new THREE.PointsMaterial({
+  size: 0.02,
+  color: 0xffffff,
+  transparent: true,
+  opacity: 0.8,
+  blending: THREE.AdditiveBlending
+})
+
+const particlesMesh: THREE.Points = new THREE.Points(particlesGeometry, particlesMaterial)
+scene.add(particlesMesh)
+
+// Mouse tracking interface
+interface MouseState {
+  x: number
+  y: number
+  isActive: boolean
+  lastMoveTime: number
+}
+
+const mouse: MouseState = {
+  x: 0,
+  y: 0,
+  isActive: false,
+  lastMoveTime: 0
+}
+
+// Mouse move handler
+window.addEventListener('mousemove', (event: MouseEvent) => {
+  // Normalize mouse coordinates to -1 to 1 range
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+  mouse.isActive = true
+  mouse.lastMoveTime = Date.now()
+})
+
+// Touch support for mobile devices
+window.addEventListener('touchmove', (event: TouchEvent) => {
+  if (event.touches.length > 0) {
+    const touch = event.touches[0]
+    // Normalize touch coordinates to -1 to 1 range
+    mouse.x = (touch.clientX / window.innerWidth) * 2 - 1
+    mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1
+    mouse.isActive = true
+    mouse.lastMoveTime = Date.now()
+  }
+})
+
+// Touch start handler
+window.addEventListener('touchstart', (event: TouchEvent) => {
+  if (event.touches.length > 0) {
+    const touch = event.touches[0]
+    mouse.x = (touch.clientX / window.innerWidth) * 2 - 1
+    mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1
+    mouse.isActive = true
+    mouse.lastMoveTime = Date.now()
+  }
+})
+
+// Check if mouse has been idle for more than 2 seconds
+setInterval(() => {
+  if (Date.now() - mouse.lastMoveTime > 2000) {
+    mouse.isActive = false
+  }
+}, 100)
+
+// Animation
+const clock: THREE.Clock = new THREE.Clock()
+
+// Helper function to clamp values within boundaries
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value))
+}
+
+// Calculate boundaries (50px from top for header, 20px from other edges)
+function getBoundaries(): { minX: number; maxX: number; minY: number; maxY: number } {
+  const aspect = window.innerWidth / window.innerHeight
+  const vFOV = THREE.MathUtils.degToRad(camera.fov)
+  const distance = camera.position.z
+  
+  // Calculate visible height and width at the ring's z-position
+  const visibleHeight = 2 * Math.tan(vFOV / 2) * distance
+  const visibleWidth = visibleHeight * aspect
+  
+  // Convert pixels to 3D space units
+  const borderSidePx = 20 // Left, right, bottom
+  const borderTopPx = 150 // Top (to clear the header)
+  
+  const borderX = (borderSidePx / window.innerWidth) * visibleWidth
+  const borderBottom = (borderSidePx / window.innerHeight) * visibleHeight
+  const borderTop = (borderTopPx / window.innerHeight) * visibleHeight
+  
+  return {
+    minX: -visibleWidth / 2 + borderX,
+    maxX: visibleWidth / 2 - borderX,
+    minY: -visibleHeight / 2 + borderBottom,
+    maxY: visibleHeight / 2 - borderTop
+  }
+}
+
+function animate(): void {
+  requestAnimationFrame(animate)
+  
+  const elapsedTime: number = clock.getElapsedTime()
+  const boundaries = getBoundaries()
+  
+  // Make the model follow the mouse cursor or float idle
+  if (modelGroup) {
+    let targetX: number
+    let targetY: number
+    
+    if (mouse.isActive) {
+      // Mouse is active - follow the cursor
+      targetX = mouse.x * 5
+      targetY = mouse.y * 5
+      
+      // Clamp target position within boundaries
+      targetX = clamp(targetX, boundaries.minX, boundaries.maxX)
+      targetY = clamp(targetY, boundaries.minY, boundaries.maxY)
+      
+      // Lerp (linear interpolation) for smooth movement
+      modelGroup.position.x += (targetX - modelGroup.position.x) * 0.1
+      modelGroup.position.y += (targetY - modelGroup.position.y) * 0.1
+      
+      // Rotate based on mouse position for more dynamic effect
+      if (model) {
+        model.rotation.y += (mouse.x * 0.5 - model.rotation.y) * 0.05
+        model.rotation.x += (mouse.y * 0.3 - model.rotation.x) * 0.05
+      }
+    } else {
+      // Mouse is idle - float slowly from left to right
+      const floatSpeed: number = 0.3
+      targetX = Math.sin(elapsedTime * floatSpeed) * 3
+      targetY = Math.sin(elapsedTime * floatSpeed * 0.5) * 0.5 // Subtle vertical movement
+      
+      // Clamp floating position within boundaries
+      targetX = clamp(targetX, boundaries.minX, boundaries.maxX)
+      targetY = clamp(targetY, boundaries.minY, boundaries.maxY)
+      
+      // Slower lerp for idle floating
+      modelGroup.position.x += (targetX - modelGroup.position.x) * 0.02
+      modelGroup.position.y += (targetY - modelGroup.position.y) * 0.02
+      
+      // Gentle rotation while floating
+      if (model) {
+        model.rotation.y = elapsedTime * 0.2
+        model.rotation.x = Math.sin(elapsedTime * 0.3) * 0.1
+      }
+    }
+  }
+  
+  // Rotate particles
+  particlesMesh.rotation.y = elapsedTime * 0.05
+  
+  // Update controls
+  controls.update()
+  
+  // Render
+  renderer.render(scene, camera)
+}
+
+// Handle window resize
+window.addEventListener('resize', () => {
+  // Update camera
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+  
+  // Update renderer
+  renderer.setSize(window.innerWidth, window.innerHeight)
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+})
+
+// Start animation
+animate()

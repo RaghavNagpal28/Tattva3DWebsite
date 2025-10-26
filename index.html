@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tattva Creative | 3D Art Studio</title>
+    <meta name="description" content="Immersive 3D art experiences and creative solutions" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+    
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-bar"></div>
+    
+    <!-- Header Navigation -->
+    <header class="header">
+      <div class="logo">Tattva Creative</div>
+      
+      <!-- Hamburger Menu Button (Mobile) -->
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <!-- Desktop Navigation Menu -->
+      <nav class="nav-menu" id="navMenu">
+        <a href="#home" class="nav-item active">Home</a>
+        <a href="#projects" class="nav-item">Projects</a>
+        <a href="#about" class="nav-item">About</a>
+        <a href="#contact" class="nav-item">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+      <div class="scroll-icon">
+        <div class="scroll-wheel"></div>
+      </div>
+      <span class="scroll-text">Scroll to explore</span>
+    </div>
+    
+    <!-- Main Content Container -->
+    <main class="page-container">
+      
+      <!-- HOME SECTION -->
+      <section class="page-section home-section" id="home">
+        <div class="section-content">
+          <div class="hero-content">
+            <h1 class="hero-title">
+              <span class="title-line">Welcome to</span>
+              <span class="title-line highlight">Tattva Creative</span>
+            </h1>
+            <p class="hero-subtitle">Crafting immersive 3D experiences that transcend reality</p>
+            <div class="hero-cta">
+              <button class="cta-button primary">Explore Our Work</button>
+              <button class="cta-button secondary">Get in Touch</button>
+            </div>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-number">50+</span>
+              <span class="stat-label">Projects Completed</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">30+</span>
+              <span class="stat-label">Happy Clients</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">5+</span>
+              <span class="stat-label">Years Experience</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS SECTION -->
+      <section class="page-section projects-section" id="projects">
+        <div class="section-content">
+          <h2 class="section-title">Our Projects</h2>
+          <p class="section-subtitle">Explore our portfolio of stunning 3D creations</p>
+          
+          <div class="projects-grid">
+            <div class="project-card">
+              <div class="project-icon">🎨</div>
+              <h3 class="project-title">Brand Visualization</h3>
+              <p class="project-description">3D product renders and brand experiences that captivate audiences</p>
+              <span class="project-tag">3D Modeling</span>
+            </div>
+            
+            <div class="project-card">
+              <div class="project-icon">🏗️</div>
+              <h3 class="project-title">Architectural Viz</h3>
+              <p class="project-description">Photorealistic architectural visualizations and walkthroughs</p>
+              <span class="project-tag">Architecture</span>
+            </div>
+            
+            <div class="project-card">
+              <div class="project-icon">🎮</div>
+              <h3 class="project-title">Interactive Experiences</h3>
+              <p class="project-description">Engaging web-based 3D applications and games</p>
+              <span class="project-tag">WebGL</span>
+            </div>
+            
+            <div class="project-card">
+              <div class="project-icon">✨</div>
+              <h3 class="project-title">Motion Graphics</h3>
+              <p class="project-description">Dynamic 3D animations and visual effects</p>
+              <span class="project-tag">Animation</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT SECTION -->
+      <section class="page-section about-section" id="about">
+        <div class="section-content">
+          <h2 class="section-title">About Us</h2>
+          <p class="section-subtitle">Pushing the boundaries of digital creativity</p>
+          
+          <div class="about-content">
+            <div class="about-text">
+              <p class="about-paragraph">
+                At Tattva Creative, we believe in the power of 3D art to transform ideas into 
+                immersive experiences. Our team of passionate artists and developers work together 
+                to create stunning visual narratives that engage and inspire.
+              </p>
+              <p class="about-paragraph">
+                With expertise spanning 3D modeling, animation, WebGL development, and interactive 
+                design, we bring your vision to life with precision and creativity.
+              </p>
+              
+              <div class="skills-container">
+                <h3 class="skills-title">Our Expertise</h3>
+                <div class="skills-grid">
+                  <div class="skill-item">
+                    <span class="skill-icon">🎯</span>
+                    <span class="skill-name">3D Modeling</span>
+                  </div>
+                  <div class="skill-item">
+                    <span class="skill-icon">🎬</span>
+                    <span class="skill-name">Animation</span>
+                  </div>
+                  <div class="skill-item">
+                    <span class="skill-icon">💻</span>
+                    <span class="skill-name">WebGL/Three.js</span>
+                  </div>
+                  <div class="skill-item">
+                    <span class="skill-icon">🎨</span>
+                    <span class="skill-name">Visual Design</span>
+                  </div>
+                  <div class="skill-item">
+                    <span class="skill-icon">⚡</span>
+                    <span class="skill-name">Real-time Rendering</span>
+                  </div>
+                  <div class="skill-item">
+                    <span class="skill-icon">🔮</span>
+                    <span class="skill-name">VR/AR</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT SECTION -->
+      <section class="page-section contact-section" id="contact">
+        <div class="section-content">
+          <h2 class="section-title">Get in Touch</h2>
+          <p class="section-subtitle">Let's create something amazing together</p>
+          
+          <div class="contact-container">
+            <form class="contact-form">
+              <div class="form-group">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" id="name" class="form-input" placeholder="Your name" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="message" class="form-label">Message</label>
+                <textarea id="message" class="form-textarea" rows="5" placeholder="Tell us about your project..." required></textarea>
+              </div>
+              
+              <button type="submit" class="form-submit">Send Message</button>
+            </form>
+            
+            <div class="contact-info">
+              <div class="info-item">
+                <span class="info-icon">📧</span>
+                <div class="info-text">
+                  <h4>Email</h4>
+                  <p>hello@tattvacreative.com</p>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <span class="info-icon">📱</span>
+                <div class="info-text">
+                  <h4>Phone</h4>
+                  <p>+1 (555) 123-4567</p>
+                </div>
+              </div>
+              
+              <div class="info-item">
+                <span class="info-icon">📍</span>
+                <div class="info-text">
+                  <h4>Location</h4>
+                  <p>San Francisco, CA</p>
+                </div>
+              </div>
+              
+              <div class="social-links">
+                <a href="#" class="social-link" aria-label="Instagram">Instagram</a>
+                <a href="#" class="social-link" aria-label="Twitter">Twitter</a>
+                <a href="#" class="social-link" aria-label="LinkedIn">LinkedIn</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    </main>
+    
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
