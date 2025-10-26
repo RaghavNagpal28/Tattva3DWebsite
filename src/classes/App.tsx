@@ -8,6 +8,7 @@ import { MenuManager } from './MenuManager.tsx'
 import { ScrollManager } from './ScrollManager.tsx'
 import { Scene3DEffects } from './Scene3DEffects.tsx'
 import { UIInteractions } from './UIInteractions.tsx'
+import { ElementalInteractive } from './ElementalInteractive.tsx'
 
 /**
  * Main application class that orchestrates all components
@@ -22,6 +23,7 @@ export class App {
   private scrollManager: ScrollManager
   private scene3DEffects: Scene3DEffects
   private uiInteractions: UIInteractions
+  private elementalInteractive: ElementalInteractive
   private clock: THREE.Clock
   private animationFrameId: number | null = null
 
@@ -44,6 +46,9 @@ export class App {
 
     // Initialize UI interactions
     this.uiInteractions = new UIInteractions()
+
+    // Initialize elemental interactive
+    this.elementalInteractive = new ElementalInteractive()
 
     this.initialize()
   }
@@ -129,5 +134,6 @@ export class App {
     this.mouseTracker.dispose()
     this.scrollManager.dispose()
     this.scene3DEffects.dispose()
+    this.elementalInteractive.dispose()
   }
 }

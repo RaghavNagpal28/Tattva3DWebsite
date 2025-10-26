@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tattva Creative | 3D Art Studio</title>
-    <meta name="description" content="Immersive 3D art experiences and creative solutions" />
+    <title>Tattva Creative | Essence in Motion</title>
+    <meta name="description" content="Premium 3D & motion studio rooted in Indian ethos, global vision" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,19 +19,17 @@
     
     <!-- Header Navigation -->
     <header class="header">
-      <div class="logo">Tattva Creative</div>
-      
-      <!-- Hamburger Menu Button (Mobile) -->
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <div class="logo">
+        <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+          <path d="M16 8 L16 24 M8 16 L24 16" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <span class="logo-text">Tattva Creative</span>
+      </div>
       
       <!-- Desktop Navigation Menu -->
       <nav class="nav-menu" id="navMenu">
-        <a href="#home" class="nav-item active">Home</a>
-        <a href="#projects" class="nav-item">Projects</a>
+        <a href="#work" class="nav-item">Work</a>
         <a href="#about" class="nav-item">About</a>
         <a href="#contact" class="nav-item">Contact</a>
       </nav>
@@ -48,187 +46,191 @@
     <!-- Main Content Container -->
     <main class="page-container">
       
-      <!-- HOME SECTION -->
-      <section class="page-section home-section" id="home">
+      <!-- HERO / FIRST VIEW -->
+      <section class="page-section hero-section" id="home">
+        <div class="hero-overlay">
+          <div class="hero-logo-container">
+            <svg class="hero-logo" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="40" cy="40" r="35" stroke="white" stroke-width="2"/>
+              <path d="M40 15 L40 65 M15 40 L65 40" stroke="white" stroke-width="2"/>
+            </svg>
+            <h1 class="hero-brand">Tattva Creative</h1>
+          </div>
+          <p class="hero-tagline">Essence in Motion</p>
+        </div>
+      </section>
+
+      <!-- INTRO STATEMENT -->
+      <section class="page-section intro-section" id="intro">
         <div class="section-content">
-          <div class="hero-content">
-            <h1 class="hero-title">
-              <span class="title-line">Welcome to</span>
-              <span class="title-line highlight">Tattva Creative</span>
-            </h1>
-            <p class="hero-subtitle">Crafting immersive 3D experiences that transcend reality</p>
-            <div class="hero-cta">
-              <button class="cta-button primary">Explore Our Work</button>
-              <button class="cta-button secondary">Get in Touch</button>
+          <h2 class="intro-headline">
+            We are a premium 3D & motion studio<br/>
+            rooted in Indian ethos, global vision.
+          </h2>
+          <p class="intro-subline">
+            Direction. Brand Visuals. CGI. Trailers.
+          </p>
+        </div>
+      </section>
+
+      <!-- FEATURED WORK PREVIEW -->
+      <section class="page-section work-preview-section" id="work">
+        <div class="section-content">
+          <div class="work-tiles">
+            <div class="work-tile" data-project="1">
+              <div class="work-tile-bg"></div>
+              <div class="work-tile-overlay">
+                <h3 class="work-tile-title">Transcending the Ordinary</h3>
+                <p class="work-tile-category">Brand Visuals / CGI</p>
+              </div>
+            </div>
+            
+            <div class="work-tile" data-project="2">
+              <div class="work-tile-bg"></div>
+              <div class="work-tile-overlay">
+                <h3 class="work-tile-title">Elements in Motion</h3>
+                <p class="work-tile-category">3D Animation / Trailer</p>
+              </div>
+            </div>
+            
+            <div class="work-tile" data-project="3">
+              <div class="work-tile-bg"></div>
+              <div class="work-tile-overlay">
+                <h3 class="work-tile-title">Visual Essence</h3>
+                <p class="work-tile-category">Direction / Motion Design</p>
+              </div>
             </div>
           </div>
-          <div class="hero-stats">
-            <div class="stat-item">
-              <span class="stat-number">50+</span>
-              <span class="stat-label">Projects Completed</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">30+</span>
-              <span class="stat-label">Happy Clients</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">5+</span>
-              <span class="stat-label">Years Experience</span>
-            </div>
+          
+          <div class="work-cta">
+            <button class="view-all-btn">View All Work</button>
           </div>
         </div>
       </section>
 
-      <!-- PROJECTS SECTION -->
-      <section class="page-section projects-section" id="projects">
-        <div class="section-content">
-          <h2 class="section-title">Our Projects</h2>
-          <p class="section-subtitle">Explore our portfolio of stunning 3D creations</p>
+      <!-- STUDIO PHILOSOPHY / ELEMENTAL MOTIF -->
+      <section class="page-section philosophy-section" id="about">
+        <div class="section-content split-layout">
+          <div class="philosophy-left">
+            <div class="elemental-interactive" id="elementalInteractive">
+              <div class="element-display" data-element="earth">
+                <div class="element-icon">🌍</div>
+                <div class="element-name">Earth</div>
+              </div>
+            </div>
+            <div class="element-controls">
+              <button class="element-btn" data-element="earth">Earth</button>
+              <button class="element-btn" data-element="fire">Fire</button>
+              <button class="element-btn" data-element="water">Water</button>
+              <button class="element-btn" data-element="air">Air</button>
+              <button class="element-btn" data-element="space">Space</button>
+            </div>
+          </div>
           
-          <div class="projects-grid">
-            <div class="project-card">
-              <div class="project-icon">🎨</div>
-              <h3 class="project-title">Brand Visualization</h3>
-              <p class="project-description">3D product renders and brand experiences that captivate audiences</p>
-              <span class="project-tag">3D Modeling</span>
-            </div>
-            
-            <div class="project-card">
-              <div class="project-icon">🏗️</div>
-              <h3 class="project-title">Architectural Viz</h3>
-              <p class="project-description">Photorealistic architectural visualizations and walkthroughs</p>
-              <span class="project-tag">Architecture</span>
-            </div>
-            
-            <div class="project-card">
-              <div class="project-icon">🎮</div>
-              <h3 class="project-title">Interactive Experiences</h3>
-              <p class="project-description">Engaging web-based 3D applications and games</p>
-              <span class="project-tag">WebGL</span>
-            </div>
-            
-            <div class="project-card">
-              <div class="project-icon">✨</div>
-              <h3 class="project-title">Motion Graphics</h3>
-              <p class="project-description">Dynamic 3D animations and visual effects</p>
-              <span class="project-tag">Animation</span>
-            </div>
+          <div class="philosophy-right">
+            <h2 class="philosophy-headline">
+              Every brand has an element.<br/>
+              We give it motion, meaning and presence.
+            </h2>
+            <p class="philosophy-text">
+              In an age of noise, visual purity becomes luxury. We build visual worlds that stand out, not just fit in.
+            </p>
           </div>
         </div>
       </section>
 
-      <!-- ABOUT SECTION -->
-      <section class="page-section about-section" id="about">
+      <!-- PROCESS SNAPSHOT -->
+      <section class="page-section process-section" id="process">
         <div class="section-content">
-          <h2 class="section-title">About Us</h2>
-          <p class="section-subtitle">Pushing the boundaries of digital creativity</p>
+          <h2 class="section-title">Our Process</h2>
           
-          <div class="about-content">
-            <div class="about-text">
-              <p class="about-paragraph">
-                At Tattva Creative, we believe in the power of 3D art to transform ideas into 
-                immersive experiences. Our team of passionate artists and developers work together 
-                to create stunning visual narratives that engage and inspire.
-              </p>
-              <p class="about-paragraph">
-                With expertise spanning 3D modeling, animation, WebGL development, and interactive 
-                design, we bring your vision to life with precision and creativity.
-              </p>
-              
-              <div class="skills-container">
-                <h3 class="skills-title">Our Expertise</h3>
-                <div class="skills-grid">
-                  <div class="skill-item">
-                    <span class="skill-icon">🎯</span>
-                    <span class="skill-name">3D Modeling</span>
-                  </div>
-                  <div class="skill-item">
-                    <span class="skill-icon">🎬</span>
-                    <span class="skill-name">Animation</span>
-                  </div>
-                  <div class="skill-item">
-                    <span class="skill-icon">💻</span>
-                    <span class="skill-name">WebGL/Three.js</span>
-                  </div>
-                  <div class="skill-item">
-                    <span class="skill-icon">🎨</span>
-                    <span class="skill-name">Visual Design</span>
-                  </div>
-                  <div class="skill-item">
-                    <span class="skill-icon">⚡</span>
-                    <span class="skill-name">Real-time Rendering</span>
-                  </div>
-                  <div class="skill-item">
-                    <span class="skill-icon">🔮</span>
-                    <span class="skill-name">VR/AR</span>
-                  </div>
-                </div>
+          <div class="process-timeline">
+            <div class="process-step">
+              <div class="process-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="2"/>
+                  <path d="M24 14 L24 24 L32 24" stroke="currentColor" stroke-width="2"/>
+                </svg>
               </div>
+              <h3 class="process-title">Concept</h3>
+              <p class="process-description">Idea born from insight</p>
             </div>
+            
+            <div class="process-arrow">→</div>
+            
+            <div class="process-step">
+              <div class="process-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <rect x="8" y="8" width="32" height="32" stroke="currentColor" stroke-width="2"/>
+                  <path d="M16 24 L24 32 L32 16" stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </div>
+              <h3 class="process-title">Production</h3>
+              <p class="process-description">Craft through motion & CGI</p>
+            </div>
+            
+            <div class="process-arrow">→</div>
+            
+            <div class="process-step">
+              <div class="process-icon">
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                  <polygon points="24,8 40,24 24,40 8,24" stroke="currentColor" stroke-width="2" fill="none"/>
+                  <circle cx="24" cy="24" r="4" fill="currentColor"/>
+                </svg>
+              </div>
+              <h3 class="process-title">Delivery</h3>
+              <p class="process-description">Impact felt by audiences</p>
+            </div>
+          </div>
+          
+          <p class="process-tagline">From insight → motion → experience: that's our workflow.</p>
+        </div>
+      </section>
+
+      <!-- CLIENT / CREDIBILITY RAIL -->
+      <section class="page-section clients-section" id="clients">
+        <div class="section-content">
+          <h2 class="section-title">Trusted By</h2>
+          
+          <div class="clients-grid">
+            <div class="client-logo">Client A</div>
+            <div class="client-logo">Client B</div>
+            <div class="client-logo">Client C</div>
+            <div class="client-logo">Client D</div>
+            <div class="client-logo">Client E</div>
+            <div class="client-logo">Client F</div>
+          </div>
+          
+          <div class="testimonial">
+            <p class="testimonial-quote">
+              "Working with Tattva Creative transformed our brand story into something alive."
+            </p>
+            <p class="testimonial-author">— Creative Director, Brand X</p>
           </div>
         </div>
       </section>
 
-      <!-- CONTACT SECTION -->
-      <section class="page-section contact-section" id="contact">
+      <!-- CONTACT CTA -->
+      <section class="page-section contact-cta-section" id="contact">
         <div class="section-content">
-          <h2 class="section-title">Get in Touch</h2>
-          <p class="section-subtitle">Let's create something amazing together</p>
-          
-          <div class="contact-container">
-            <form class="contact-form">
-              <div class="form-group">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" id="name" class="form-input" placeholder="Your name" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="message" class="form-label">Message</label>
-                <textarea id="message" class="form-textarea" rows="5" placeholder="Tell us about your project..." required></textarea>
-              </div>
-              
-              <button type="submit" class="form-submit">Send Message</button>
-            </form>
-            
-            <div class="contact-info">
-              <div class="info-item">
-                <span class="info-icon">📧</span>
-                <div class="info-text">
-                  <h4>Email</h4>
-                  <p>hello@tattvacreative.com</p>
-                </div>
-              </div>
-              
-              <div class="info-item">
-                <span class="info-icon">📱</span>
-                <div class="info-text">
-                  <h4>Phone</h4>
-                  <p>+1 (555) 123-4567</p>
-                </div>
-              </div>
-              
-              <div class="info-item">
-                <span class="info-icon">📍</span>
-                <div class="info-text">
-                  <h4>Location</h4>
-                  <p>San Francisco, CA</p>
-                </div>
-              </div>
-              
-              <div class="social-links">
-                <a href="#" class="social-link" aria-label="Instagram">Instagram</a>
-                <a href="#" class="social-link" aria-label="Twitter">Twitter</a>
-                <a href="#" class="social-link" aria-label="LinkedIn">LinkedIn</a>
-              </div>
-            </div>
-          </div>
+          <h2 class="contact-cta-headline">Ready to find your element?</h2>
+          <p class="contact-cta-subline">hello@tattvacreative.com</p>
+          <button class="lets-talk-btn">Let's Talk</button>
         </div>
       </section>
+      
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-links">
+            <a href="#privacy" class="footer-link">Privacy</a>
+            <a href="#terms" class="footer-link">Terms</a>
+            <a href="#instagram" class="footer-link">Instagram</a>
+            <a href="#linkedin" class="footer-link">LinkedIn</a>
+          </div>
+          <p class="footer-copyright">© 2025 Tattva Creative. All rights reserved.</p>
+        </div>
+      </footer>
       
     </main>
     

@@ -122,12 +122,16 @@ export class ScrollManager {
     // Calculate scroll progress (0 to 1)
     const scrollProgress = this.totalHeight > 0 ? this.scrollY / this.totalHeight : 0
     
-    // Define camera positions for each section
+    // Define camera positions for each section (7 sections total)
     const cameraKeyframes = [
-      { progress: 0, position: { x: 0, y: 0, z: 5 }, rotation: 0 },      // Home
-      { progress: 0.33, position: { x: 2, y: 0.5, z: 6 }, rotation: 0.2 },  // Projects
-      { progress: 0.66, position: { x: -1.5, y: 1, z: 6.5 }, rotation: -0.15 }, // About
-      { progress: 1, position: { x: 0, y: -0.5, z: 5.5 }, rotation: 0 }   // Contact
+      { progress: 0, position: { x: 0, y: 0, z: 5 }, rotation: 0 },           // Hero
+      { progress: 0.14, position: { x: 1, y: 0.3, z: 5.5 }, rotation: 0.1 },  // Intro
+      { progress: 0.29, position: { x: -1, y: 0.5, z: 6 }, rotation: -0.1 },  // Work Preview
+      { progress: 0.43, position: { x: 1.5, y: 0, z: 5.8 }, rotation: 0.15 }, // Philosophy
+      { progress: 0.57, position: { x: -1.2, y: -0.3, z: 6.2 }, rotation: -0.12 }, // Process
+      { progress: 0.71, position: { x: 0.8, y: 0.4, z: 5.6 }, rotation: 0.08 }, // Clients
+      { progress: 0.86, position: { x: -0.5, y: -0.2, z: 5.8 }, rotation: -0.05 }, // Contact CTA
+      { progress: 1, position: { x: 0, y: 0, z: 5 }, rotation: 0 }            // Footer
     ]
 
     // Find the two keyframes to interpolate between

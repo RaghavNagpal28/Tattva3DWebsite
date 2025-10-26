@@ -53,4 +53,19 @@ export class MenuManager {
       this.navMenu.classList.remove('active')
     }
   }
+
+  /**
+   * Update active navigation item based on current section
+   */
+  public updateActiveNav(sectionId: string): void {
+    const navItems = document.querySelectorAll('.nav-item')
+    navItems.forEach(item => {
+      const href = item.getAttribute('href')
+      if (href === `#${sectionId}`) {
+        item.classList.add('active')
+      } else {
+        item.classList.remove('active')
+      }
+    })
+  }
 }
