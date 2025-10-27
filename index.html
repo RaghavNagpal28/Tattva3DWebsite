@@ -11,6 +11,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
+    <!-- Loader Container -->
+    <div class="loader-container">
+      <canvas class="loader-canvas"></canvas>
+      <div class="loader-content">
+        <h2 class="loader-text">Tattva Creative</h2>
+        <p class="loader-subtext">Essence in Motion</p>
+        <div class="loader-progress">
+          <div class="loader-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Page Transition Overlay -->
+    <div class="page-transition-overlay"></div>
+    
     <!-- 3D Canvas Background -->
     <canvas id="webgl-canvas"></canvas>
     
@@ -20,16 +35,19 @@
     <!-- Header Navigation -->
     <header class="header">
       <div class="logo">
-        <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
-          <path d="M16 8 L16 24 M8 16 L24 16" stroke="currentColor" stroke-width="2"/>
-        </svg>
-        <span class="logo-text">Tattva Creative</span>
+        <a href="/" class="logo-link">
+          <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+            <path d="M16 8 L16 24 M8 16 L24 16" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span class="logo-text">Tattva Creative</span>
+        </a>
       </div>
       
       <!-- Desktop Navigation Menu -->
       <nav class="nav-menu" id="navMenu">
-        <a href="#work" class="nav-item">Work</a>
+        <a href="/pages/work.html" class="nav-item">Work</a>
+        <a href="/pages/services.html" class="nav-item">Services</a>
         <a href="#about" class="nav-item">About</a>
         <a href="#contact" class="nav-item">Contact</a>
       </nav>
@@ -103,7 +121,7 @@
           </div>
           
           <div class="work-cta">
-            <button class="view-all-btn">View All Work</button>
+            <a href="/pages/work.html" class="view-all-btn">View All Work</a>
           </div>
         </div>
       </section>
@@ -225,8 +243,8 @@
           <div class="footer-links">
             <a href="#privacy" class="footer-link">Privacy</a>
             <a href="#terms" class="footer-link">Terms</a>
-            <a href="#instagram" class="footer-link">Instagram</a>
-            <a href="#linkedin" class="footer-link">LinkedIn</a>
+            <a href="https://www.instagram.com/tattva.creative/" target="_blank" rel="noopener noreferrer" class="footer-link">Instagram</a>
+            <a href="https://www.linkedin.com/company/tattva-creative/" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a>
           </div>
           <p class="footer-copyright">© 2025 Tattva Creative. All rights reserved.</p>
         </div>

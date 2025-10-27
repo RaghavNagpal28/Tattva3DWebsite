@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Services | Tattva Creative</title>
+    <meta name="description" content="Premium 3D, CGI, and motion design services" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="services-page">
+    <!-- Loader Container -->
+    <div class="loader-container">
+      <canvas class="loader-canvas"></canvas>
+      <div class="loader-content">
+        <h2 class="loader-text">Tattva Creative</h2>
+        <p class="loader-subtext">Essence in Motion</p>
+        <div class="loader-progress">
+          <div class="loader-progress-fill"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Page Transition Overlay -->
+    <div class="page-transition-overlay"></div>
+    
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+    
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-bar"></div>
+    
+    <!-- Header Navigation -->
+    <header class="header">
+      <div class="logo">
+        <a href="/" class="logo-link">
+          <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
+            <path d="M16 8 L16 24 M8 16 L24 16" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span class="logo-text">Tattva Creative</span>
+        </a>
+      </div>
+      
+      <!-- Desktop Navigation Menu -->
+      <nav class="nav-menu" id="navMenu">
+        <a href="/pages/work.html" class="nav-item">Work</a>
+        <a href="/pages/services.html" class="nav-item active">Services</a>
+        <a href="/#about" class="nav-item">About</a>
+        <a href="/#contact" class="nav-item">Contact</a>
+      </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="page-container services-page-container">
+      
+      <!-- SERVICES PAGE HERO -->
+      <section class="page-section services-hero-section">
+        <div class="section-content">
+          <h1 class="services-page-title">Our Services</h1>
+          <p class="services-page-subtitle">
+            From concept to delivery, we bring your vision to life
+          </p>
+        </div>
+      </section>
+
+      <!-- SERVICES GRID -->
+      <section class="page-section services-grid-section">
+        <div class="section-content">
+          
+          <div class="services-grid">
+            
+            <!-- Service 1: Brand Visuals -->
+            <div class="service-card">
+              <div class="service-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                  <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="2"/>
+                  <path d="M32 12 L32 52 M12 32 L52 32" stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </div>
+              <h3 class="service-title">Brand Visuals</h3>
+              <p class="service-description">
+                We craft distinctive visual identities that capture your brand's essence. 
+                From logo animations to complete brand systems, we create visuals that resonate.
+              </p>
+              <ul class="service-features">
+                <li>Logo Animation</li>
+                <li>Brand Identity Systems</li>
+                <li>Visual Style Guides</li>
+                <li>Motion Branding</li>
+              </ul>
+            </div>
+
+            <!-- Service 2: CGI & 3D -->
+            <div class="service-card">
+              <div class="service-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                  <rect x="8" y="8" width="48" height="48" stroke="currentColor" stroke-width="2"/>
+                  <path d="M8 32 L32 8 L56 32 L32 56 Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+              </div>
+              <h3 class="service-title">CGI & 3D</h3>
+              <p class="service-description">
+                Photorealistic CGI and stylized 3D work that pushes boundaries. 
+                We create immersive visual experiences that captivate audiences.
+              </p>
+              <ul class="service-features">
+                <li>Product Visualization</li>
+                <li>Environment Design</li>
+                <li>Character Creation</li>
+                <li>Architectural Rendering</li>
+              </ul>
+            </div>
+
+            <!-- Service 3: Motion Design -->
+            <div class="service-card">
+              <div class="service-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                  <path d="M16 32 L32 16 L48 32 L32 48 Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                  <circle cx="32" cy="32" r="8" stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </div>
+              <h3 class="service-title">Motion Design</h3>
+              <p class="service-description">
+                Dynamic motion graphics that tell stories. We bring static designs to life 
+                with purposeful animation and seamless transitions.
+              </p>
+              <ul class="service-features">
+                <li>2D/3D Animation</li>
+                <li>Kinetic Typography</li>
+                <li>UI/UX Animation</li>
+                <li>Explainer Videos</li>
+              </ul>
+            </div>
+
+            <!-- Service 4: Direction -->
+            <div class="service-card">
+              <div class="service-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                  <polygon points="32,8 56,24 56,40 32,56 8,40 8,24" stroke="currentColor" stroke-width="2" fill="none"/>
+                  <circle cx="32" cy="32" r="12" stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </div>
+              <h3 class="service-title">Direction</h3>
+              <p class="service-description">
+                Creative direction that guides projects from concept to completion. 
+                We orchestrate every element to create cohesive, impactful narratives.
+              </p>
+              <ul class="service-features">
+                <li>Creative Strategy</li>
+                <li>Art Direction</li>
+                <li>Storyboarding</li>
+                <li>Project Management</li>
+              </ul>
+            </div>
+
+            <!-- Service 5: Trailers & Promos -->
+            <div class="service-card">
+              <div class="service-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                  <rect x="12" y="16" width="40" height="32" stroke="currentColor" stroke-width="2"/>
+                  <path d="M24 28 L24 36 L36 32 Z" fill="currentColor"/>
+                </svg>
+              </div>
+              <h3 class="service-title">Trailers & Promos</h3>
+              <p class="service-description">
+                High-impact trailers and promotional content that generate excitement. 
+                We create memorable moments that drive engagement.
+              </p>
+              <ul class="service-features">
+                <li>Product Launches</li>
+                <li>Event Promos</li>
+                <li>Social Media Content</li>
+                <li>Campaign Videos</li>
+              </ul>
+            </div>
+
+            <!-- Service 6: Custom Solutions -->
+            <div class="service-card">
+              <div class="service-icon">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                  <circle cx="32" cy="32" r="24" stroke="currentColor" stroke-width="2"/>
+                  <path d="M32 16 L32 48 M16 32 L48 32 M22 22 L42 42 M42 22 L22 42" stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </div>
+              <h3 class="service-title">Custom Solutions</h3>
+              <p class="service-description">
+                Tailored visual solutions for unique challenges. We collaborate closely 
+                to develop bespoke approaches that meet your specific needs.
+              </p>
+              <ul class="service-features">
+                <li>Interactive Experiences</li>
+                <li>Virtual Production</li>
+                <li>Real-time Graphics</li>
+                <li>Specialized Projects</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- PROCESS SECTION -->
+      <section class="page-section services-process-section">
+        <div class="section-content">
+          <h2 class="section-title">How We Work</h2>
+          
+          <div class="process-timeline-vertical">
+            
+            <div class="process-step-vertical">
+              <div class="process-number">01</div>
+              <div class="process-content">
+                <h3 class="process-title">Discovery</h3>
+                <p class="process-description">
+                  We start by understanding your vision, goals, and audience. 
+                  Deep research and strategic thinking form the foundation.
+                </p>
+              </div>
+            </div>
+
+            <div class="process-connector"></div>
+
+            <div class="process-step-vertical">
+              <div class="process-number">02</div>
+              <div class="process-content">
+                <h3 class="process-title">Concept</h3>
+                <p class="process-description">
+                  Ideas take shape through mood boards, sketches, and styleframes. 
+                  We explore multiple directions to find the perfect fit.
+                </p>
+              </div>
+            </div>
+
+            <div class="process-connector"></div>
+
+            <div class="process-step-vertical">
+              <div class="process-number">03</div>
+              <div class="process-content">
+                <h3 class="process-title">Production</h3>
+                <p class="process-description">
+                  Craft meets technology as we bring concepts to life. 
+                  Meticulous attention to detail at every frame.
+                </p>
+              </div>
+            </div>
+
+            <div class="process-connector"></div>
+
+            <div class="process-step-vertical">
+              <div class="process-number">04</div>
+              <div class="process-content">
+                <h3 class="process-title">Refinement</h3>
+                <p class="process-description">
+                  Iterative feedback and polish ensure perfection. 
+                  We refine until every element aligns with the vision.
+                </p>
+              </div>
+            </div>
+
+            <div class="process-connector"></div>
+
+            <div class="process-step-vertical">
+              <div class="process-number">05</div>
+              <div class="process-content">
+                <h3 class="process-title">Delivery</h3>
+                <p class="process-description">
+                  Final assets delivered in all required formats. 
+                  Your vision, ready to make an impact.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICES CTA -->
+      <section class="page-section services-cta-section">
+        <div class="section-content">
+          <h2 class="services-cta-headline">Ready to elevate your brand?</h2>
+          <p class="services-cta-subline">Let's discuss how we can bring your vision to life</p>
+          <a href="/#contact" class="lets-talk-btn">Get in Touch</a>
+        </div>
+      </section>
+      
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div class="footer-content">
+          <div class="footer-links">
+            <a href="#privacy" class="footer-link">Privacy</a>
+            <a href="#terms" class="footer-link">Terms</a>
+            <a href="https://www.instagram.com/tattva.creative/" target="_blank" rel="noopener noreferrer" class="footer-link">Instagram</a>
+            <a href="https://www.linkedin.com/company/tattva-creative/" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a>
+          </div>
+          <p class="footer-copyright">© 2025 Tattva Creative. All rights reserved.</p>
+        </div>
+      </footer>
+      
+    </main>
+    
+    <script type="module" src="/src/services-main.tsx"></script>
+  </body>
+</html>
