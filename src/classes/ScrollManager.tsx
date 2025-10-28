@@ -185,7 +185,6 @@ export class ScrollManager {
     // Trigger section change callback if section changed
     if (newSection !== this.currentSection) {
       this.currentSection = newSection
-      this.updateActiveNav(newSection)
       
       if (this.onSectionChange) {
         this.onSectionChange(newSection)
@@ -193,19 +192,6 @@ export class ScrollManager {
     }
   }
 
-  /**
-   * Update active state of navigation items
-   */
-  private updateActiveNav(sectionIndex: number): void {
-    const navItems = document.querySelectorAll('.nav-item')
-    navItems.forEach((item, index) => {
-      if (index === sectionIndex) {
-        item.classList.add('active')
-      } else {
-        item.classList.remove('active')
-      }
-    })
-  }
 
   /**
    * Linear interpolation

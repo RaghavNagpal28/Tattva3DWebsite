@@ -60,7 +60,7 @@ export class App {
       this.sceneManager.getScene().add(particleMesh)
 
       // Load the 3D model
-      const modelGroup = await this.modelLoader.loadModel('/ring.glb')
+      const modelGroup = await this.modelLoader.loadModel('/tattva logo.glb')
       this.sceneManager.getScene().add(modelGroup)
 
       // Initialize model animator

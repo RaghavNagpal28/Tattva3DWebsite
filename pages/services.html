@@ -9,18 +9,41 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Critical CSS to prevent FOUC -->
+    <style>
+      /* Hide page content until loader is ready */
+      body { margin: 0; padding: 0; overflow: hidden; background: #fff; }
+      
+      /* Loader must be visible immediately */
+      .loader-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #ffffff;
+        z-index: 11000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+      }
+      
+      .loader-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+    </style>
   </head>
   <body class="services-page">
     <!-- Loader Container -->
     <div class="loader-container">
       <canvas class="loader-canvas"></canvas>
-      <div class="loader-content">
-        <h2 class="loader-text">Tattva Creative</h2>
-        <p class="loader-subtext">Essence in Motion</p>
-        <div class="loader-progress">
-          <div class="loader-progress-fill"></div>
-        </div>
-      </div>
     </div>
     
     <!-- Page Transition Overlay -->
@@ -28,9 +51,6 @@
     
     <!-- 3D Canvas Background -->
     <canvas id="webgl-canvas"></canvas>
-    
-    <!-- Scroll Progress Bar -->
-    <div class="scroll-progress-bar"></div>
     
     <!-- Header Navigation -->
     <header class="header">

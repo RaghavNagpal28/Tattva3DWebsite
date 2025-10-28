@@ -1,10 +1,12 @@
 import gsap from 'gsap'
 import * as THREE from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 
 /**
- * Premium Image-based Loader with Chi Rho symbol
- * Features elegant 3D animations matching Tattva Creative's aesthetic
- * Reusable for page transitions and API loading states
+ * Minimal 3D Loader with Tattva Creative logo model
+ * Features elegant 3D logo animation with particles
+ * Clean black background with rotating GLB model
+ * Reusable for page transitions and loading states
  */
 export class Loader {
   private container: HTMLElement | null
@@ -12,9 +14,8 @@ export class Loader {
   private scene: THREE.Scene
   private camera: THREE.PerspectiveCamera
   private renderer: THREE.WebGLRenderer | null = null
-  private logoPlane: THREE.Mesh | null = null
+  private logoModel: THREE.Group | null = null
   private particleSystem: THREE.Points | null = null
-  private glowRing: THREE.Mesh | null = null
   private animationFrameId: number | null = null
   private isVisible: boolean = false
   private onCompleteCallback: (() => void) | null = null
@@ -32,6 +33,9 @@ export class Loader {
       1000
     )
     this.camera.position.z = 5
+    
+    // Loader is visible by default, so start as visible
+    this.isVisible = true
     
     this.init()
   }
@@ -54,42 +58,64 @@ export class Loader {
     // Create particle system
     this.createParticles()
 
-    // Create glow ring
-    this.createGlowRing()
-
     // Load and create logo
     await this.loadLogo()
+
+    // Start animation immediately since loader is visible by default
+    this.animate()
 
     // Handle resize
     window.addEventListener('resize', () => this.handleResize())
   }
 
   /**
-   * Load the Chi Rho logo image
+   * Load the Tattva Creative logo 3D model
    */
   private loadLogo(): Promise<void> {
     return new Promise((resolve) => {
-      const textureLoader = new THREE.TextureLoader()
+      const loader = new GLTFLoader()
       
-      textureLoader.load(
-        '/536978335_17857922397480421_2375388129638713398_n.jpg',
-        (texture) => {
-          // Create plane geometry for the logo
-          const geometry = new THREE.PlaneGeometry(2, 2)
-          const material = new THREE.MeshBasicMaterial({
-            map: texture,
-            transparent: true,
-            opacity: 1,
-            side: THREE.DoubleSide,
+      loader.load(
+        '/tattva logo.glb',
+        (gltf) => {
+          this.logoModel = gltf.scene
+          
+          // Center the model
+          const box = new THREE.Box3().setFromObject(this.logoModel)
+          const center = box.getCenter(new THREE.Vector3())
+          this.logoModel.position.sub(center)
+          
+          // Scale the model to fit
+          const size = box.getSize(new THREE.Vector3())
+          const maxDim = Math.max(size.x, size.y, size.z)
+          const scale = 2 / maxDim
+          this.logoModel.scale.setScalar(scale)
+          
+          // Apply metallic silver material
+          this.logoModel.traverse((child) => {
+            if (child instanceof THREE.Mesh) {
+              child.material = new THREE.MeshStandardMaterial({
+                color: 0x000000,
+                metalness: 0.9,
+                roughness: 0.1,
+              })
+            }
           })
-
-          this.logoPlane = new THREE.Mesh(geometry, material)
-          this.scene.add(this.logoPlane)
+          
+          // Add lighting for the model
+          const ambientLight = new THREE.AmbientLight(0xffffff, 0.7)
+          this.scene.add(ambientLight)
+          
+          const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
+          directionalLight.position.set(5, 5, 5)
+          this.scene.add(directionalLight)
+          
+          this.scene.add(this.logoModel)
           resolve()
         },
         undefined,
         (error) => {
-          console.error('Error loading logo:', error)
+          console.error('Error loading logo model:', error)
           resolve()
         }
       )
@@ -130,22 +156,6 @@ export class Loader {
   }
 
   /**
-   * Create glow ring effect
-   */
-  private createGlowRing(): void {
-    const geometry = new THREE.RingGeometry(2.2, 2.4, 64)
-    const material = new THREE.MeshBasicMaterial({
-      color: 0xC0C0C0,
-      transparent: true,
-      opacity: 0.3,
-      side: THREE.DoubleSide,
-    })
-
-    this.glowRing = new THREE.Mesh(geometry, material)
-    this.scene.add(this.glowRing)
-  }
-
-  /**
    * Animate the 3D scene
    */
   private animate = (): void => {
@@ -156,25 +166,19 @@ export class Loader {
     const time = Date.now() * 0.001
 
     // Rotate logo slowly
-    if (this.logoPlane) {
-      this.logoPlane.rotation.z = Math.sin(time * 0.5) * 0.1
+    if (this.logoModel) {
+      this.logoModel.rotation.y = time * 0.5
+      this.logoModel.rotation.z = Math.sin(time * 0.5) * 0.1
       
       // Subtle scale pulse
       const scale = 1 + Math.sin(time * 2) * 0.05
-      this.logoPlane.scale.set(scale, scale, 1)
+      this.logoModel.scale.setScalar(scale)
     }
 
     // Rotate particles
     if (this.particleSystem) {
       this.particleSystem.rotation.y = time * 0.2
       this.particleSystem.rotation.x = time * 0.1
-    }
-
-    // Pulse glow ring
-    if (this.glowRing) {
-      this.glowRing.rotation.z = time * 0.3
-      const opacity = 0.2 + Math.sin(time * 3) * 0.15
-      ;(this.glowRing.material as THREE.MeshBasicMaterial).opacity = opacity
     }
 
     this.renderer.render(this.scene, this.camera)
@@ -193,7 +197,7 @@ export class Loader {
       this.isVisible = true
       this.container.style.display = 'flex'
 
-      // Animate in
+      // Animate in - only fade the container
       gsap.to(this.container, {
         opacity: 1,
         duration: duration,
@@ -203,36 +207,6 @@ export class Loader {
           resolve()
         },
       })
-
-      // Animate text
-      const loaderText = this.container.querySelector('.loader-text')
-      const loaderSubtext = this.container.querySelector('.loader-subtext')
-      
-      if (loaderText) {
-        gsap.fromTo(
-          loaderText,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.8, delay: 0.2, ease: 'power2.out' }
-        )
-      }
-
-      if (loaderSubtext) {
-        gsap.fromTo(
-          loaderSubtext,
-          { opacity: 0 },
-          { opacity: 1, duration: 1, delay: 0.5, ease: 'power2.out' }
-        )
-      }
-
-      // Animate progress bar
-      const progressBar = this.container.querySelector('.loader-progress-fill')
-      if (progressBar) {
-        gsap.to(progressBar, {
-          scaleX: 1,
-          duration: 2,
-          ease: 'power1.inOut',
-        })
-      }
     })
   }
 
@@ -289,20 +263,6 @@ export class Loader {
   }
 
   /**
-   * Update progress (0 to 1)
-   */
-  public updateProgress(progress: number): void {
-    const progressBar = this.container?.querySelector('.loader-progress-fill') as HTMLElement
-    if (progressBar) {
-      gsap.to(progressBar, {
-        scaleX: Math.max(0, Math.min(1, progress)),
-        duration: 0.3,
-        ease: 'power2.out',
-      })
-    }
-  }
-
-  /**
    * Set completion callback
    */
   public onComplete(callback: () => void): void {
@@ -340,24 +300,25 @@ export class Loader {
     }
 
     // Dispose Three.js resources
-    if (this.logoPlane) {
-      this.logoPlane.geometry.dispose()
-      if (this.logoPlane.material instanceof THREE.Material) {
-        this.logoPlane.material.dispose()
-      }
+    if (this.logoModel) {
+      this.logoModel.traverse((child) => {
+        if (child instanceof THREE.Mesh) {
+          if (child.geometry) child.geometry.dispose()
+          if (child.material) {
+            if (Array.isArray(child.material)) {
+              child.material.forEach(mat => mat.dispose())
+            } else {
+              child.material.dispose()
+            }
+          }
+        }
+      })
     }
 
     if (this.particleSystem) {
       this.particleSystem.geometry.dispose()
       if (this.particleSystem.material instanceof THREE.Material) {
         this.particleSystem.material.dispose()
-      }
-    }
-
-    if (this.glowRing) {
-      this.glowRing.geometry.dispose()
-      if (this.glowRing.material instanceof THREE.Material) {
-        this.glowRing.material.dispose()
       }
     }
 
