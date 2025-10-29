@@ -31,7 +31,11 @@ export class App {
     this.sceneManager = new SceneManager(canvas)
     this.modelLoader = new ModelLoader()
     this.particleSystem = new ParticleSystem(1000)
+    // Disabled mouse tracking to remove mouse-following effect
     this.mouseTracker = new MouseTracker()
+    // Override methods to return center position (0, 0)
+    this.mouseTracker.getX = () => 0
+    this.mouseTracker.getY = () => 0
     this.menuManager = new MenuManager()
     this.clock = new THREE.Clock()
 

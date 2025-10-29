@@ -19,6 +19,8 @@ export class Loader {
   private animationFrameId: number | null = null
   private isVisible: boolean = false
   private onCompleteCallback: (() => void) | null = null
+  private isTransitioning: boolean = false
+  private baseLogoScale: number = 1
 
   constructor() {
     this.container = document.querySelector('.loader-container')
@@ -88,16 +90,18 @@ export class Loader {
           // Scale the model to fit
           const size = box.getSize(new THREE.Vector3())
           const maxDim = Math.max(size.x, size.y, size.z)
-          const scale = 2 / maxDim
-          this.logoModel.scale.setScalar(scale)
+          this.baseLogoScale = 2 / maxDim
+          this.logoModel.scale.setScalar(this.baseLogoScale)
           
-          // Apply metallic silver material
+          // Apply white material for loader (visible on black background)
           this.logoModel.traverse((child) => {
             if (child instanceof THREE.Mesh) {
               child.material = new THREE.MeshStandardMaterial({
-                color: 0x000000,
-                metalness: 0.9,
-                roughness: 0.1,
+                color: 0xffffff,
+                metalness: 0.0,
+                roughness: 0.3,
+                emissive: 0xffffff,
+                emissiveIntensity: 0.2,
               })
             }
           })
@@ -157,91 +161,226 @@ export class Loader {
 
   /**
    * Animate the 3D scene
+   * Always runs to keep logo visible in header
    */
   private animate = (): void => {
-    if (!this.isVisible || !this.renderer) return
+    if (!this.renderer) return
 
     this.animationFrameId = requestAnimationFrame(this.animate)
 
     const time = Date.now() * 0.001
 
-    // Rotate logo slowly
-    if (this.logoModel) {
-      this.logoModel.rotation.y = time * 0.5
-      this.logoModel.rotation.z = Math.sin(time * 0.5) * 0.1
-      
-      // Subtle scale pulse
-      const scale = 1 + Math.sin(time * 2) * 0.05
-      this.logoModel.scale.setScalar(scale)
+    // Only animate when visible (loader state)
+    if (this.isVisible) {
+      // Rotate logo slowly
+      if (this.logoModel) {
+        this.logoModel.rotation.y = time * 0.5
+        this.logoModel.rotation.z = Math.sin(time * 0.5) * 0.1
+        
+        // Subtle scale pulse
+        const scale = 1 + Math.sin(time * 2) * 0.05
+        this.logoModel.scale.setScalar(scale)
+      }
+
+      // Rotate particles
+      if (this.particleSystem) {
+        this.particleSystem.rotation.y = time * 0.2
+        this.particleSystem.rotation.x = time * 0.1
+      }
     }
 
-    // Rotate particles
-    if (this.particleSystem) {
-      this.particleSystem.rotation.y = time * 0.2
-      this.particleSystem.rotation.x = time * 0.1
-    }
-
+    // Always render to keep logo visible
     this.renderer.render(this.scene, this.camera)
   }
 
   /**
-   * Show the loader with animation
+   * Show the loader with animation (Menu → Loader transition)
    */
-  public show(duration: number = 0.6): Promise<void> {
+  public show(duration: number = 0.8): Promise<void> {
     return new Promise((resolve) => {
-      if (!this.container) {
+      if (!this.container || !this.logoModel || this.isTransitioning) {
         resolve()
         return
       }
 
+      console.log('Loader.show() called - starting animation from header to center')
+      
+      this.isTransitioning = true
       this.isVisible = true
+      
+      // Make container visible and interactive
       this.container.style.display = 'flex'
+      this.container.style.pointerEvents = 'auto'
 
-      // Animate in - only fade the container
-      gsap.to(this.container, {
-        opacity: 1,
-        duration: duration,
-        ease: 'power2.out',
+      // Calculate scales
+      const headerScale = this.baseLogoScale * 0.4 // Header size (40% of base)
+      const loaderScale = this.baseLogoScale // Full loader size
+      
+      console.log('Scales:', { headerScale, loaderScale, baseLogoScale: this.baseLogoScale })
+      
+      // Calculate header position
+      const headerLogoContainer = document.querySelector('.header-logo-container') as HTMLElement
+      let startX = 0
+      let startY = 0
+      
+      if (headerLogoContainer) {
+        const headerRect = headerLogoContainer.getBoundingClientRect()
+        const loaderRect = this.container!.getBoundingClientRect()
+        
+        // Calculate offset from center to header position (in 3D space)
+        const offsetX = (headerRect.left + headerRect.width / 2 - loaderRect.width / 2) / 100
+        const offsetY = -(headerRect.top + headerRect.height / 2 - loaderRect.height / 2) / 100
+        
+        startX = offsetX
+        startY = offsetY
+        console.log('Header position calculated:', { startX, startY })
+      } else {
+        console.warn('Header logo container not found!')
+      }
+      
+      // Set initial state: small scale at header position
+      this.logoModel.position.set(startX, startY, 0)
+      this.logoModel.scale.setScalar(headerScale)
+      console.log('Logo initial state set:', { position: this.logoModel.position, scale: headerScale })
+      
+      // Set initial container state: start transparent, fade to black
+      this.container.style.backgroundColor = 'rgba(0, 0, 0, 0)'
+      this.container.style.opacity = '1'
+      
+      // Set particles to invisible initially
+      if (this.particleSystem) {
+        (this.particleSystem.material as THREE.PointsMaterial).opacity = 0
+      }
+
+      // Create master timeline for animation
+      const masterTimeline = gsap.timeline({
         onComplete: () => {
-          this.animate()
+          this.isTransitioning = false
           resolve()
         },
       })
+
+      // Phase 0: Fade in background (0-0.4s)
+      masterTimeline.to(this.container, {
+        backgroundColor: 'rgba(0, 0, 0, 1)',
+        duration: 0.4,
+        ease: 'power2.out',
+      }, 0)
+
+      // Phase 1: Move logo to center and scale up (0-0.8s)
+      masterTimeline.to(this.logoModel.position, {
+        x: 0,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.inOut',
+      }, 0)
+      
+      masterTimeline.to(this.logoModel.scale, {
+        x: loaderScale,
+        y: loaderScale,
+        z: loaderScale,
+        duration: 0.8,
+        ease: 'power2.out',
+      }, 0)
+
+      // Phase 2: Fade in particles (0.4-0.8s)
+      if (this.particleSystem) {
+        masterTimeline.to(this.particleSystem.material, {
+          opacity: 1,
+          duration: 0.4,
+          ease: 'power2.out',
+        }, 0.4)
+      }
     })
   }
 
   /**
-   * Hide the loader with animation
+   * Hide the loader with animation (Loader → Menu transition)
    */
   public hide(duration: number = 0.8): Promise<void> {
     return new Promise((resolve) => {
-      if (!this.container) {
+      if (!this.container || !this.logoModel || this.isTransitioning) {
         resolve()
         return
       }
 
-      // Stop animation
-      if (this.animationFrameId) {
-        cancelAnimationFrame(this.animationFrameId)
-        this.animationFrameId = null
+      this.isTransitioning = true
+
+      // Calculate scales and positions
+      const headerScale = this.baseLogoScale * 0.4 // Header size (40% of base)
+      
+      // Calculate header position
+      const headerLogoContainer = document.querySelector('.header-logo-container') as HTMLElement
+      let targetX = 0
+      let targetY = 0
+      
+      if (headerLogoContainer) {
+        const headerRect = headerLogoContainer.getBoundingClientRect()
+        const loaderRect = this.container!.getBoundingClientRect()
+        
+        // Calculate offset from center to header position (in 3D space)
+        const offsetX = (headerRect.left + headerRect.width / 2 - loaderRect.width / 2) / 100
+        const offsetY = -(headerRect.top + headerRect.height / 2 - loaderRect.height / 2) / 100
+        
+        targetX = offsetX
+        targetY = offsetY
       }
 
-      // Animate out
-      gsap.to(this.container, {
-        opacity: 0,
-        duration: duration,
-        ease: 'power2.in',
+      // Create a master timeline for coordinated animations
+      const masterTimeline = gsap.timeline({
         onComplete: () => {
           this.isVisible = false
+          this.isTransitioning = false
+          
+          // Keep container visible but make it non-interactive
+          // This prevents blank screens during transitions
           if (this.container) {
-            this.container.style.display = 'none'
+            this.container.style.pointerEvents = 'none'
+            // Don't set display: none - keep it visible for smooth transitions
           }
+          
+          // Keep animation running for header logo visibility
+          // Don't stop the animation loop
+          
           resolve()
           if (this.onCompleteCallback) {
             this.onCompleteCallback()
           }
         },
       })
+
+      // Phase 1: Fade out particles first (0-0.4s)
+      if (this.particleSystem) {
+        masterTimeline.to(this.particleSystem.material, {
+          opacity: 0,
+          duration: 0.4,
+          ease: 'power2.in',
+        }, 0)
+      }
+
+      // Phase 2: Move logo to header position and scale down (0.2-1.0s)
+      masterTimeline.to(this.logoModel.position, {
+        x: targetX,
+        y: targetY,
+        duration: 0.8,
+        ease: 'power2.inOut',
+      }, 0.2)
+      
+      masterTimeline.to(this.logoModel.scale, {
+        x: headerScale,
+        y: headerScale,
+        z: headerScale,
+        duration: 0.8,
+        ease: 'power2.in',
+      }, 0.2)
+
+      // Phase 3: Fade out the loader background (0.6-1.0s)
+      // Keep opacity slightly visible to prevent blank screens
+      masterTimeline.to(this.container, {
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        duration: 0.4,
+        ease: 'power2.in',
+      }, 0.6)
     })
   }
 

@@ -22,7 +22,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: #ffffff;
+        background: #000000;
         z-index: 11000;
         display: flex;
         align-items: center;
@@ -56,13 +56,18 @@
     <header class="header">
       <div class="logo">
         <a href="/" class="logo-link">
-          <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
-            <path d="M16 8 L16 24 M8 16 L24 16" stroke="currentColor" stroke-width="2"/>
-          </svg>
-          <span class="logo-text">Tattva Creative</span>
+          <div class="header-logo-container">
+            <canvas class="header-logo-canvas"></canvas>
+          </div>
         </a>
       </div>
+      
+      <!-- Mobile Menu Toggle -->
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
       
       <!-- Desktop Navigation Menu -->
       <nav class="nav-menu" id="navMenu">

@@ -1,6 +1,7 @@
 import './style.css'
 import { App } from './classes/App.tsx'
 import { PageTransition } from './classes/PageTransition.tsx'
+import { HeaderLogo } from './classes/HeaderLogo.tsx'
 
 /**
  * Work page entry point
@@ -15,6 +16,17 @@ if (canvas) {
 
   // Initialize page transitions
   const pageTransition = new PageTransition()
+  
+  // Initialize header logo
+  const headerLogo = new HeaderLogo()
+  
+  // Connect header logo click to show loader
+  headerLogo.onClick(async () => {
+    const loader = pageTransition.getLoader()
+    await loader.show(0.8)
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    await loader.hide(0.8)
+  })
 
   // Work page specific interactions
   const setupWorkPageInteractions = () => {
@@ -55,5 +67,6 @@ if (canvas) {
   window.addEventListener('beforeunload', () => {
     app.dispose()
     pageTransition.dispose()
+    headerLogo.dispose()
   })
 }
